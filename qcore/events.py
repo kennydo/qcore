@@ -373,6 +373,14 @@ class EnumBasedEventHubType(type):
             # similar instance members
             delattr(cls, 'on_' + name)
 
+    @classmethod
+    def __prepare__(metacls, name, bases, **kwds):
+        """
+        A dummy implementation due to an issue with using both Cython + six.with_metaclass:
+        https://github.com/cython/cython/issues/1936
+        """
+        return dict()
+
 
 class EnumBasedEventHub(six.with_metaclass(EnumBasedEventHubType, EventHub)):
     __based_on__ = []
